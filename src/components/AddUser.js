@@ -37,7 +37,7 @@ const AddUser = () => {
             <input
               type="text"
               className="form-control form-control-lg"
-           
+              required='matricule is required.'
               name="matricule"
               value={matricule}
               onChange={e => onInputChange(e)}
@@ -49,7 +49,7 @@ const AddUser = () => {
 
               type="text"
               className="form-control form-control-lg"
-            
+              required='First name is required.'
               name="name"
               value={name}
               onChange={e => onInputChange(e)}
@@ -60,7 +60,7 @@ const AddUser = () => {
             <input
               type="text"
               className="form-control form-control-lg"
-             
+              required= 'lastname is required.'
               name="lastname"
               value={lastname}
               onChange={e => onInputChange(e)}
@@ -71,7 +71,7 @@ const AddUser = () => {
             <input
               type="date"
               className="form-control form-control-lg"
-              
+              required='date is required.'
               name="dateDemarrage"
               value={dateDemarrage}
               onChange={e => onInputChange(e)}

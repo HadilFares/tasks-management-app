@@ -1,14 +1,27 @@
 import React, { useState, useEffect} from "react";
 import axios from "axios";
-import { Link ,useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Home = () => {
   const [userList, setuserList] = useState([]);
-  const { id } = useParams();
+  
+  const [search,setSearch]=useState('');
+  const [filteredUsers,setfilteredUsers]=useState([]);
+  
   
   useEffect(() => {
+    
    loadUsers();
   }, []);
 
+  useEffect(()=>{
+    setfilteredUsers(
+      userList.filter(person=>{
+        return person.name.toLowerCase().includes(search.toLowerCase())
+      })
+    )
+
+  },[search,userList]);
+  
   
 
   const loadUsers = async() =>{
@@ -19,26 +32,8 @@ const Home = () => {
     await axios.delete(`http://localhost:3000/delete/${id}`);
     loadUsers();
   };
-  const filterContent=(userList,searchTerm)=>{
-    const result=userList.filter(
-      (user)=>
-      user.matricule.includes(searchTerm)||
-      user.name.toLowerCase().includes(searchTerm)||
-      user.lastname.toLowerCase().includes(searchTerm)
-    );
-    this.setState({userList:result});
-  }
-const handleTextSearch=(e)=>{
-  const searchTerm=e.currentTarget.value;
-   axios.get('http://localhost:3000/read').then ((res)=>{
-    if(res.data.succes){
-      filterContent(res.data.userList,searchTerm)
-    }
-  }
-  )
-    
 
-}
+  
   
 
   
@@ -52,7 +47,7 @@ const handleTextSearch=(e)=>{
           type="search" 
           placeholder="search"
           name="searchTerm"
-          onChange={handleTextSearch}>
+          onChange={e=>setSearch(e.target.value)}>
           </input>
 
         </div>
@@ -69,7 +64,7 @@ const handleTextSearch=(e)=>{
             </tr>
           </thead>
           <tbody>
-            {userList.map((user,id) => (
+            {filteredUsers.map((user,id) => (
               <tr key={id}>
                <th scope="row"></th>
                 
