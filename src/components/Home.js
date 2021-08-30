@@ -1,28 +1,45 @@
 import React, { useState, useEffect} from "react";
+
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ExportToExcel } from "./ExportToExcel";
+
+import dayjs from "dayjs";
+import FilterBar from "./FilterBar";
+const isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+const isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
+
+
 const Home = () => {
   const [userList, setuserList] = useState([]);
-  
-  const [search,setSearch]=useState('');
-  const [filteredUsers,setfilteredUsers]=useState([]);
-  
+  const[AllData,setAllData]=useState([]);
+  const [data, setData] = React.useState([])
+  const fileName = "myfile"; // here enter filename for your excel file
+
+  useEffect(() => {
+    const fetchData = () =>{
+     axios.get('http://localhost:3000/read').then(r => setData(r.data) )
+    }
+    fetchData()
+  }, [])
   
   useEffect(() => {
     
    loadUsers();
   }, []);
 
-  useEffect(()=>{
-    setfilteredUsers(
-      userList.filter(person=>{
-        return person.name.toLowerCase().includes(search.toLowerCase())
-      })
-    )
-
-  },[search,userList]);
   
   
+  const handleFilterDate = (date, field) => {
+    const filteredData = userList.filter((item) => {
+      if (field === "from" && dayjs(item.dateDemarrage).isSameOrAfter(dayjs(date))) {
+        return item ;
+      }
+     });   
+    setAllData(filteredData);
+  };
 
   const loadUsers = async() =>{
     const result=await axios.get('http://localhost:3000/read');
@@ -33,25 +50,24 @@ const Home = () => {
     loadUsers();
   };
 
-  
-  
 
-  
+ 
   return (
     <div className="container">
       <div className="py-4">
         <h1>Home Page</h1>
         <div className="col-lg-9 mt -2 mb-2">
-          <input className="form-control"
+         
+         
+          <FilterBar 
+          onDateFilter={handleFilterDate}
           
-          type="search" 
-          placeholder="search"
-          name="searchTerm"
-          onChange={e=>setSearch(e.target.value)}>
-          </input>
-
+          />
+          <ExportToExcel apiData={data} fileName={fileName} />
+        
+       
         </div>
-        <table className="table border shadow">
+        <table id="tblData" className="table border shadow">
           <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
@@ -64,14 +80,15 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user,id) => (
+        
+            {AllData.map((user,id) => (
               <tr key={id}>
                <th scope="row"></th>
                 
                 <td>{user.matricule}</td>
                 <td>{user.name}</td>
                 <td>{user.lastname}</td>
-                <td>{user.dateDemarrage}</td>
+                <td>{dayjs(user?.dateDemarrage).format("YYYY / MM / DD")}</td>
                 <td>
                 
   
@@ -92,6 +109,7 @@ const Home = () => {
             ))}
           </tbody>
         </table>
+      
       </div>
     </div>
   );
