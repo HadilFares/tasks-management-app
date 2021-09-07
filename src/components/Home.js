@@ -1,22 +1,24 @@
 import { Form, Button } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
+import {
+  ExcelExport,
+  ExcelExportColumn,
+  ExcelExportColumnGroup,
+} from "@progress/kendo-react-excel-export";
 //import ReactToExcel from "react-html-table-to-excel";
-import ReactExport from "react-data-export";
+//import ReactExport from "react-data-export";
 
 import moment from "moment";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
 const Home = () => {
   const [userList, setuserList] = useState([]);
   //const [data, setData] = useState([]);
-  const [getUserList , setGetUserList] = useState([]);
+
   const [fromDate, setDate1] = useState();
   const [toDate, setDate2] = useState();
+  const [totalUser, setTotalUsers] = useState();
 
   const filteredUser = async (date1, date2) => {
     if (typeof date1 != "undefined" || typeof date2 != "undefined") {
@@ -24,11 +26,12 @@ const Home = () => {
         .get(`http://localhost:3000/search/${date1}/${date2}`)
         .then((response) => {
           //setuserList(response.data);
-          let object = response.data;
-          setGetUserList(object)
-          let date = [{date1 : date1 ,date2 : date2}]
-          setuserList([...object , ...date])
-          console.log(userList)
+          /* let object = response.data;
+          setGetUserList(object);
+          let date = [{ date1: date1, date2: date2 }];*/
+          setuserList(response.data);
+          setTotalUsers(response.data.length);
+          console.log(userList);
         });
     } else {
       const result = await axios.get("http://localhost:3000/read");
@@ -61,7 +64,43 @@ const Home = () => {
     await axios.delete(`http://localhost:3000/delete/${id}`);
     loadUsers();
   };
+  const _exporter = React.createRef();
 
+  const excelExport = () => {
+    if (_exporter.current) {
+      _exporter.current.save();
+    }
+  };
+
+  let _export;
+
+  const Export = () => {
+    const options = _export.workbookOptions();
+    const rows = options.sheets[0].rows;
+    options.sheets[0].frozenRows = 2;
+    const headerRow = {
+      height: 20 ,
+      cells: [
+        {
+          value: `Fromdate: ${fromDate}`,
+          fontSize: 18,
+          colSpan: 3,
+        },
+        {
+          value: `Todate: ${toDate}`,
+          fontSize: 18,
+          colSpan: 3,
+        },
+      ],
+    };
+    const footerRow = {
+      height: 20,
+      cells: [{ value: `Total users ${totalUser}`, fontSize: 18, colSpan: 3 }],
+    };
+    rows.unshift(headerRow);
+    rows.push(footerRow);
+    _export.save(options);
+  };
   return (
     <>
       <div className="row my-5">
@@ -115,14 +154,18 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {getUserList.map((user, id) => (
+              {userList.map((user, id) => (
                 <tr key={id}>
                   <th scope="row"></th>
                   <td>{user.matricule}</td>
                   <td>{user.name}</td>
                   <td>{user.lastname}</td>
                   <td>
-                    {moment(user?.dateDemarrage).format("YYYY / MM / DD")}
+                    {
+                      (user.dateDemarrage = moment(user?.dateDemarrage).format(
+                        "YYYY / MM / DD"
+                      ))
+                    }
                   </td>
                   <td>
                     <Link
@@ -142,17 +185,26 @@ const Home = () => {
               ))}
             </tbody>
           </table>
-          <ExcelFile filename={"ExcelExport"} element={<button>Export</button>}>
-            <ExcelSheet data={userList} name="userList">          
-              <ExcelColumn label="User_ID" value="matricule" />
-              <ExcelColumn label="Name" value="name" />
-              <ExcelColumn label="LastName" value="lastname" />
-              <ExcelColumn label="hiring date" value="dateDemarrage" />
-              <ExcelColumn label="fromDate" value="date1" />
-              <ExcelColumn label="toDate" value="date2" />
-            </ExcelSheet>
-          </ExcelFile>
         </div>
+      </div>
+      <div>
+        <button className="k-button" onClick={Export}>
+          Export to Excel
+        </button>
+
+        <ExcelExport
+          data={userList}
+          fileName="excel.xlsx"
+          headerPaddingCellOptions={{
+            background: "#ff0000",
+          }}
+          ref={(exporter) => (_export = exporter)}
+        >
+          <ExcelExportColumn field="matricule" title="User_Id" />
+          <ExcelExportColumn field="name" title="Name" />
+          <ExcelExportColumn field="lastname" title="LastName" />
+          <ExcelExportColumn field="dateDemarrage" title="Hiring Date" />
+        </ExcelExport>
       </div>
     </>
   );
