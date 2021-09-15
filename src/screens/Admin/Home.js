@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   ExcelExport,
   ExcelExportColumn,
-  ExcelExportColumnGroup,
+  
 } from "@progress/kendo-react-excel-export";
 //import ReactToExcel from "react-html-table-to-excel";
 //import ReactExport from "react-data-export";
@@ -64,14 +64,14 @@ const Home = () => {
     await axios.delete(`http://localhost:3000/delete/${id}`);
     loadUsers();
   };
-  const _exporter = React.createRef();
+  //const _exporter = React.createRef();
 
-  const excelExport = () => {
+ /* const excelExport = () => {
     if (_exporter.current) {
       _exporter.current.save();
     }
   };
-
+*/
   let _export;
 
   const Export = () => {

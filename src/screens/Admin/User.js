@@ -4,21 +4,21 @@ import axios from "axios";
 
 const User = () => {
   const [user, setUser] = useState({
-    id:"",
+    //id:"",
     matricule: "",
     name: "",
     lastname: "",
     dateDemarrage: ""
     
   });
-  //
+  /*
   useEffect(() => {
     loadUser();
   }, []);
   const loadUser = async () => {
     const res = await axios.get(`http://localhost:3000/user/get/${id}`);
     setUser(res.data);
-  };
+  };*/
   return (
     <div className="container py-4">
       <Link className="btn btn-primary" to="/">
@@ -28,7 +28,7 @@ const User = () => {
       <hr />
       <ul className="list-group w-50">
         
-      <li className="list-group-item">id: {user.id}</li>
+        
         <li className="list-group-item">matricule: {user.matricule}</li>
         <li className="list-group-item">name: {user.name}</li>
         <li className="list-group-item">lastname: {user.lastname}</li>
