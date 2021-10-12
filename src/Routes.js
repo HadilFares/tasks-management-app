@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import {Home,AddUser,EditUser,LoginScreen,RegisterScreen} from './screens'
+import {Home,AddUser,EditUser,LoginScreen,RegisterScreen,ListTasks, GeneratePassword} from './screens'
 import {Route}from 'react-router-dom'
 
 function Routes(){
@@ -11,6 +11,8 @@ function Routes(){
       <Route exact path="/users/edit/:id" component={EditUser} />
       <Route path='/login' component={LoginScreen} exact/>
         <Route path='/register' component={RegisterScreen} exact/>
+        <Route path='/tasks' component={ListTasks} exact />
+        <Route path="/generatepassword/:id" component={GeneratePassword} exact/>
         </Container>
 
     )

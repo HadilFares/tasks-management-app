@@ -1,25 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import {Alert,Spinner } from "react-bootstrap";
 
 const AddUser = () => {
   const [userList, setuserList] = useState([]);
-
+  const [isMailSend,setIsMailSend] = useState(false);
+  const [loading , setLoading] = useState(false)
   let history = useHistory();
   const [user, setUser] = useState({
-    matricule: "",
+  
     name: "",
     lastname: "",
     dateDemarrage: "",
+    email :"",
   });
 
-  const { matricule, name, lastname, dateDemarrage } = user;
+  const { matricule, name, lastname, dateDemarrage,email } = user;
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const result = await axios.get("http://localhost:3000/read");
     console.log(result.data.reverse());
     setuserList(result.data.reverse());
@@ -31,15 +35,35 @@ const AddUser = () => {
         break;
       }
     }
-    if (found == true) {
+
+   if (found == true) {
       return alert("matricule already exit");
     } else {
-      await axios.post("http://localhost:3000/create", user);
-      history.push("/");
+      try {
+        await axios.post("http://localhost:3000/create", user)
+          .then((res)=> {
+            setLoading(false);
+            let result = axios.post("http://localhost:3000/api/sendmail", {user:user,id:res});
+            console.log(result);
+            setIsMailSend(true)
+            console.log("user added sucessfuly")
+            history.push("/");
+
+          })
+      } catch (error) {
+        console.log({error});
+        setLoading(false)
+      }
     }
   };
+
   return (
     <div className="container">
+      {isMailSend && (
+        <Alert variant="success">
+          Mail send successfuly
+        </Alert>
+      )}
       <div className="w-75 mx-auto shadow p-5">
         <h2 className="text-center mb-4">Add A User</h2>
         <form onSubmit={(e) => onSubmit(e)}>
@@ -51,6 +75,17 @@ const AddUser = () => {
               required="matricule is required."
               name="matricule"
               value={matricule}
+              onChange={(e) => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+          Email :
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              required="First name is required."
+              name="email"
+              value={email}
               onChange={(e) => onInputChange(e)}
             />
           </div>
@@ -87,8 +122,20 @@ const AddUser = () => {
               onChange={(e) => onInputChange(e)}
             />
           </div>
-
+          {loading ? (
+            <button variant="primary" disabled>
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              Loading...
+            </button>
+          ) : (
           <button className="btn btn-primary btn-block">Add User</button>
+          )}
         </form>
       </div>
     </div>

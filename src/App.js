@@ -1,22 +1,17 @@
-
-import React from 'react' ;
-import "bootstrap/dist/css/bootstrap.min.css"
-import {BrowserRouter as Router ,Switch   } from 'react-router-dom';
-import {Header} from './components';
-import Routes from './Routes';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { Header } from "./components";
+import Routes from "./Routes";
 function App() {
   return (
-   <Router>
-     <div className="App">
-     <Header/>
-     
+    <Router>
+      <Header />
+
       <Switch>
-      <Routes/>
+        <Routes />
       </Switch>
-    
-     </div>
-     </Router>
-    
+    </Router>
   );
 }
 

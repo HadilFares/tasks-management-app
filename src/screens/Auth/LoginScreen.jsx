@@ -1,16 +1,49 @@
-import React from "react";
+import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { FormContainer } from "../../components";
+import axios from "axios";
+import { useHistory } from "react-router";
 
 function LoginScreen() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [messageError, setMessageError] = useState(null);
+  const history = useHistory();
+
+
+  const login = async () => {
+    const data = { email, password };
+    try {
+
+      localStorage.clear();
+      setIsLoading(true);
+      await axios.post("http://localhost:3000/api/user/login", data).then((response) => {
+        console.log(response.data);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.id);
+        history.push('/')
+      });
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error.response.data.msg);
+      setMessageError(error.response.data.msg);
+      setIsLoading(false);
+    }
+  };
+  
+
+
   return (
     <FormContainer>
       <h1>Sign In</h1>
       <Form>
         <Form.Group controlId="email" className="mb-3">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" name="email" placeholder="Enter Email" />
+          <Form.Control type="email" name="email" placeholder="Enter Email" 
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </Form.Group>
         <Form.Group controlId="password" className="mb-3">
           <Form.Label>Password</Form.Label>
@@ -18,11 +51,12 @@ function LoginScreen() {
             type="password"
             name="password"
             placeholder="Enter Password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
 
         <div class="text-center">
-          <Button type="submit" variant="primary">
+          <Button  onClick={()=> login()}>
             Sign In
           </Button>
         </div>
