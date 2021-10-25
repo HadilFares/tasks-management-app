@@ -10,7 +10,7 @@ useEffect(()=>{
     const getTasks=async()=>{
         try {
          const response=await axios.get("http://localhost:3000/read/tasks");
-         setData(await response.data);
+         setData(response.data);
          console.log(response.data)
         }catch (error){
             console.log(error);

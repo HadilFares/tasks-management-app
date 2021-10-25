@@ -1,52 +1,66 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Navbar, Nav, Container, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 const Header = () => {
+  
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div className="container">
-        <Link className="navbar-brand" to="/">
-          React User
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+    <>
+      <Form.Group className="mb-5">
+        <Navbar bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="/">myDesk</Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link>
+                <Link
+                  to={"/"}
+                  style={{ textDecoration: "none", color: "White" }}
+                >
+                  <span>
+                  <i class="fas fa-home" /> Home
+                </span>
+                </Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link
+                  to={"/login"}
+                  style={{ textDecoration: "none", color: "White" }}
+                >
+                  <span>
+                  <i class="fas fa-sign-in-alt" /> Login
+                </span>
+                </Link>
+              </Nav.Link>
+              <Nav.Link >
+                <Link
+                  to={"/register"}
+                  style={{ textDecoration: "none", color: "White" }}
+                >
+                  <span>
+                  <i class="fas fa-user-plus" /> SignUp
+                </span>
+                </Link>
+              </Nav.Link>
+            </Nav>
+          </Container>
+        </Navbar>
+      </Form.Group>
 
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <NavLink className="nav-link" exact to="/">
-                Home
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" exact to="/about">
-                About
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" exact to="/contact">
-                Contact
-              </NavLink>
-            </li>
-           
-            
-          </ul>
-        </div>
-        
-    
-
-        <Link className="btn btn-outline-light" to="/users/add">Add User</Link>
-      </div>
-      
-    </nav>
+      {/*  <Form.Group className="mb-5">
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="/">myDesk</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="/">Tickets</Nav.Link>
+            <Nav.Link href="/logout">Logout</Nav.Link>
+            <Nav.Link href="/register">newTicket</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+    </Form.Group>
+  */}
+    </>
   );
 };
 

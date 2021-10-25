@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { FormContainer } from "../../components";
@@ -20,10 +20,13 @@ function LoginScreen() {
       localStorage.clear();
       setIsLoading(true);
       await axios.post("http://localhost:3000/api/user/login", data).then((response) => {
-        console.log(response.data);
+        console.log(response);
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.id);
-        history.push('/')
+        localStorage.setItem("isAdmin", response.data.isAdmin);
+        
+        if(response.data.isAdmin) history.push('/dashboardAdmin');
+        else history.push('/dashboardClient');
+        window.location.reload();
       });
       setIsLoading(false);
     } catch (error) {
@@ -33,6 +36,10 @@ function LoginScreen() {
     }
   };
   
+  useEffect(() => {
+    const clearStorage = () =>{ return localStorage.clear()};
+    clearStorage();
+  }, [])
 
 
   return (

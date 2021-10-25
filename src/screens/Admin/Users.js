@@ -12,7 +12,7 @@ import moment from "moment";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const Users = () => {
   const [userList, setuserList] = useState([]);
   //const [data, setData] = useState([]);
 
@@ -210,4 +210,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Users;
