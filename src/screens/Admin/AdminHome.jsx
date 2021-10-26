@@ -52,7 +52,6 @@ const AdminHome = () => {
             <div class="row">
               <div
                 className="col-md-3 bg-success mx-2"
-                style={{ height: 130, width: 800 }}
               >
                 <div className="col-md-12">
                   <div className="row">
@@ -79,7 +78,6 @@ const AdminHome = () => {
 
               <div
                 className="col-md-3 bg-danger mx-2"
-                style={{ height: 130, width: 800 }}
               >
                 <div className="col-md-12">
                   <div className="row">
@@ -87,7 +85,9 @@ const AdminHome = () => {
                       <h5
                         className="my-2 text-white text-center"
                         style={{ fontSize: 30 }}
-                      ></h5>
+                      >
+                        {taskStats.todo + taskStats.done + taskStats.inProgress}
+                      </h5>
                       <h5 className="text-white">Total tasks</h5>
                     </div>
                     <div className="col-md-4">
@@ -104,7 +104,6 @@ const AdminHome = () => {
               
           <div
             className="col-md-3 bg-warning mx-2"
-            style={{ height: 130, width: 800 }}
           >
             <div className="col-md-12">
               <div className="row">
@@ -120,7 +119,7 @@ const AdminHome = () => {
                 <div className="col-md-4">
                   <h1>
                     <i
-                      class="fas fa-tasks"
+                      className="fas fa-tasks"
                       style={{ color: "white", marginTop: 45 }}
                     ></i>
                   </h1>
@@ -131,7 +130,8 @@ const AdminHome = () => {
 
           <div
             className="col-md-3 bg-dark mx-2"
-            style={{ height: 130, width: 800, marginTop: 20 }}
+            style={{  marginTop: 20 }}
+
           >
             <div className="col-md-12">
               <div className="row">
@@ -157,7 +157,7 @@ const AdminHome = () => {
           </div>
           <div
             className="col-md-3 bg-primary mx-2"
-            style={{ height: 130, width: 800, marginTop: 20 }}
+            style={{  marginTop: 20 }}
           >
             <div className="col-md-12">
               <div className="row">

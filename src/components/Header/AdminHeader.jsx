@@ -8,52 +8,58 @@ function AdminHeader() {
     <Form.Group className="mb-5">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand>
-            <Link to={"/"} style={{ textDecoration: "none", color: "White" }}>
-              MyDesk
-            </Link>
-          </Navbar.Brand>
-          <Nav className="me-auto">
-          <NavDropdown
-              title={
-                <span>
-                  <i class="fas fa-clipboard-list" /> TASKS
-                </span>
-              }
-              id="TASKS"
-            >
-              <LinkContainer to="/dashboard">
-                <NavDropdown.Item>List Tasks</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer to="/client/newticket">
-                <NavDropdown.Item>New Tasks</NavDropdown.Item>
-              </LinkContainer>
-            </NavDropdown>
-
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Navbar.Brand>
+              <Link to={"/"} style={{ textDecoration: "none", color: "White" }}>
+                MyDesk
+              </Link>
+            </Navbar.Brand>
+            <Nav className="me-auto">
+              
+            </Nav>
+            <Nav>
             <NavDropdown
-              title={
-                <span>
-                  <i class="fas fa-users" /> Admin Menu
-                </span>
-              }
-              id="adminmenu"
-            >
-              <LinkContainer to="/users">
-                <NavDropdown.Item>Users</NavDropdown.Item>
-              </LinkContainer>
-            <LinkContainer to="/dashboardAdmin">
-                <NavDropdown.Item>Statistics</NavDropdown.Item>
-              </LinkContainer>
-            </NavDropdown>
-            <Nav.Link
-              href="/login"
-              style={{ textDecoration: "none", color: "White" }}
-            > 
-                <span>
-                    <i class="fas fa-sign-out-alt" /> Logout
+                title={
+                  <span>
+                    <i class="fas fa-clipboard-list" /> TASKS
                   </span>
-            </Nav.Link>
-          </Nav>
+                }
+                id="TASKS"
+              >
+                <LinkContainer to="/dashboard">
+                  <NavDropdown.Item>List Tasks</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/client/newticket">
+                  <NavDropdown.Item>New Tasks</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown>
+
+              <NavDropdown
+                title={
+                  <span>
+                    <i class="fas fa-users" /> Admin Menu
+                  </span>
+                }
+                id="adminmenu"
+              >
+                <LinkContainer to="/users">
+                  <NavDropdown.Item>Users</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/dashboardAdmin">
+                  <NavDropdown.Item>Statistics</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown>
+              <Nav.Link
+                href="/login"
+                style={{ textDecoration: "none", color: "White" }}
+              >
+                <span>
+                  <i class="fas fa-sign-out-alt" /> Logout
+                </span>
+              </Nav.Link>
+              
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </Form.Group>

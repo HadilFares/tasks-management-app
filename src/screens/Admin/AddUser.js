@@ -16,7 +16,7 @@ const AddUser = () => {
     email :"",
   });
 
-  const { matricule, name, lastname, dateDemarrage,email } = user;
+  const {name, lastname, dateDemarrage,email } = user;
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -28,7 +28,7 @@ const AddUser = () => {
     console.log(result.data.reverse());
     setuserList(result.data.reverse());
 
-    var found = false;
+   /* var found = false;
     for (var i = 0; i < result.data.length; i++) {
       if (result.data[i].matricule == user.matricule) {
         found = true;
@@ -38,7 +38,7 @@ const AddUser = () => {
 
    if (found == true) {
       return alert("matricule already exit");
-    } else {
+    } else {*/
       try {
         await axios.post("http://localhost:3000/create", user)
           .then((res)=> {
@@ -54,7 +54,7 @@ const AddUser = () => {
         console.log({error});
         setLoading(false)
       }
-    }
+    
   };
 
   return (
@@ -67,17 +67,7 @@ const AddUser = () => {
       <div className="w-75 mx-auto shadow p-5">
         <h2 className="text-center mb-4">Add A User</h2>
         <form onSubmit={(e) => onSubmit(e)}>
-          <div className="form-group">
-            matricule:
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              required="matricule is required."
-              name="matricule"
-              value={matricule}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
+          
           <div className="form-group">
           Email :
             <input

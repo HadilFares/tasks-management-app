@@ -23,6 +23,8 @@ function LoginScreen() {
         console.log(response);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("isAdmin", response.data.isAdmin);
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("name", response.data.name);
         
         if(response.data.isAdmin) history.push('/dashboardAdmin');
         else history.push('/dashboardClient');

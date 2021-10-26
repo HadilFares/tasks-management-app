@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Modal from "react-bootstrap/Modal";
-import {Accordion, Form, Button, ListGroup } from "react-bootstrap";
+import { Accordion, Form, Button, ListGroup } from "react-bootstrap";
 
 import RealtimeBoard from "react-trello";
 import { useHistory /* useParams*/ } from "react-router";
@@ -21,20 +21,23 @@ function DashboardClientScreen() {
   const [selectedTicket, setSelectedTicket] = useState({});
   const [Title, setTitle] = useState();
   const [Datedebut, setDateDebut] = useState();
-  const [IdPersonne,setIdPersonne]=useState();
+  const [IdPersonne, setIdPersonne] = useState();
   const [Datefin, setDatefin] = useState();
   const [Description, setDescription] = useState();
   const [Priority, setPriority] = useState();
   const [Statut, setStatut] = useState();
-  const [taskToDelete , setTaskToDelete] = useState();
-  const [Loader, setLoader] = useState();
+  const [taskToDelete, setTaskToDelete] = useState();
   const [successMessage, setSuccessMessage] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setLoading(true);
+  };
   const handleShow = () => setShow(true);
 
-  const[showDelete, setShowDelete] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const handleCloseDelete = () => setShowDelete(false);
   const handleShowDelete = () => setShowDelete(true);
   const history = useHistory();
@@ -55,12 +58,8 @@ function DashboardClientScreen() {
   const getSelectedTicket = async (id) => {
     try {
       const response = await axios.get(`http://localhost:3000/task/${id}`);
-      /* setReq_type(response.data[0].req_type);
-      setReq_title(response.data[0].req_title);
-      setPriority(response.data[0].Priority);
-      setReq_description(response.data[0].req_description);
-      setReq_status(response.data[0].req_status);*/
-      setSelectedTicket(response.data[0]);
+      setDescription(response.data.Description);
+      setSelectedTicket(response.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -90,12 +89,12 @@ function DashboardClientScreen() {
     try {
       //e.preventDefault();
       const dataToUpdate = {
-        Title: selectedTicket.Title,
-        Datedebut: selectedTicket.Datedebut,
-        Datefin: selectedTicket.Datefin,
-        Priority: selectedTicket.Priority,
-        Description: selectedTicket.Description,
-        Statut: selectedTicket.Statut,
+        Title,
+        Datedebut,
+        Datefin,
+        Priority,
+        Description,
+        Statut,
       };
       console.log(dataToUpdate);
       const response = await axios.put(
@@ -118,6 +117,7 @@ function DashboardClientScreen() {
       );
       console.log(res);
       setSuccessMessage(res.data.msg);
+      window.location.reload()
     } catch (error) {
       console.log(error);
     }
@@ -139,52 +139,34 @@ function DashboardClientScreen() {
       console.log(error);
     }
   };
- /* const deleteComments = async (id) => {
+
+  //* ADD NEW COMMENT
+  const addComment = async () => {
+    let name = localStorage.getItem("name");
+    let id = localStorage.getItem("id");
+
     try {
-      await axios.delete(
-        `http://localhost:3001/response/${id}`
+      const newResponse = {
+        date: Date.now(),
+        user_name: name,
+        text: comment,
+        id,
+      };
+      console.log(newResponse)
+      const res = await axios.put(
+        `http://localhost:3000/add/comment/${selectedTicket._id}`,
+        {
+          date: Date.now(),
+          user_name: name,
+          text: comment,
+          id,
+        }
       );
-      console.log("comments deleted seccussfuly");
+      window.location.reload()
     } catch (error) {
-      console.log(error);
+      console.log({error});
     }
-  }*/
-// * GET RESPONSE COMMENTS
-/*const getResponseComments = async (id) => {
-  try {
-    await axios
-      .get(`http://localhost:3001/response/${id}`)
-      .then((response) => {
-        setComments(response.data);
-        console.log(response.data);
-        //  getUserById(comments);
-      });
-  } catch (error) {
-    console.log(error);
-  }
-};
-*/
-//* ADD NEW COMMENT
-const addComment = async () => {
-  try {
-    const newResponse = {
-      request_req_id: selectedTicket.req_id,
-     
-      res_text: comment,
-      //user_name: user_name,
-    };
-    const res = await axios.post(
-      `http://localhost:3000/add/comment`,
-      newResponse
-    );
-    console.log(res);
-    //getResponseComments();
-    handleClose();
-    updateData();
-  } catch (error) {
-    console.log(error);
-  }
-};
+  };
   return (
     <>
       <RealtimeBoard
@@ -298,15 +280,6 @@ const addComment = async () => {
           updateRequestStatus(toLaneId, cardId);
         }}
       />
-      {/*<OnUpdateScreen
-        show={modalShow}
-        selectedTicket={selectedTicket}
-        onHide={() => {
-          getTickets();
-          setModalShow(false);
-        }}
-      />
-      */}
 
       <Modal
         aria-labelledby="example-modal-sizes-title-lg"
@@ -314,7 +287,7 @@ const addComment = async () => {
         show={show}
         onHide={handleClose}
       >
-        loading ? (
+        {loading ? (
           <Form.Group className="mb-5">
             <div className="text-center" style={{ marginTop: 40 }}>
               <Loader />
@@ -322,14 +295,14 @@ const addComment = async () => {
           </Form.Group>
         ) : (
           <>
-          <Form onSubmit={updateData}>
-          <Modal.Header>
+            <Form onSubmit={updateData}>
+              <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
                   Update Task
                 </Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="show-grid">
-            <Form.Group className="mb-3">
+              </Modal.Header>
+              <Modal.Body className="show-grid">
+                <Form.Group className="mb-3">
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
@@ -337,51 +310,55 @@ const addComment = async () => {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                 </Form.Group>
+
                 <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    type="text"
-                    defaultValue={selectedTicket.Description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Priority</Form.Label>
-                  <Form.Control
-                    type="text"
-                    defaultValue={selectedTicket.Priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>StartDate</Form.Label>
+                  <Form.Label>Start Date</Form.Label>
                   <input
                     type="date"
-                    name="date1"
+                    name="Datedebut"
                     className="form-control"
                     defaultValue={moment(selectedTicket.Datedebut).format(
                       "yyyy-MM-DD"
                     )}
-                    onChange={(e) =>setDateDebut(e.target.value.toString())}
+                    onChange={(e) => setDateDebut(e.target.value)}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>EndDate</Form.Label>
+                  <Form.Label>End Date</Form.Label>
                   <input
                     type="date"
-                    name="date1"
+                    name="Datefin"
                     className="form-control"
                     defaultValue={moment(selectedTicket.Datefin).format(
                       "yyyy-MM-DD"
                     )}
-                    onChange={(e) =>setDateDebut(e.target.value.toString())}
+                    onChange={(e) => setDatefin(e.target.value)}
                   />
                 </Form.Group>
-                
                 <Form.Group className="mb-5">
+                  <Form.Label>Priority</Form.Label>
+
+                  <Form.Control
+                    as="select"
+                    defaultValue={selectedTicket.Priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                  >
+                    <option key="low" value="low">
+                      Low
+                    </option>
+                    <option key="medium" value="medium">
+                      Medium
+                    </option>
+                    <option key="high" value="high">
+                      High
+                    </option>
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Description</Form.Label>
                   <Yamde
                     value={Description}
-                    handler={Description}
+                    handler={setDescription}
                     theme="dark"
                     toolbar={[
                       "bold",
@@ -393,31 +370,28 @@ const addComment = async () => {
                   />
                 </Form.Group>
                 <Accordion flush>
-                <Accordion.Item eventKey="0">
+                  <Accordion.Item eventKey="0">
                     <Accordion.Header>Comments box</Accordion.Header>
                     <Accordion.Body>
-                      {comments.map(
-                        ({ id, res_date,  res_text, user_name }) => (
+                      {selectedTicket.Comments.map(
+                        ({ id, date, text, user_name }) => (
                           <ListGroup.Item key={id}>
                             {console.log({
                               id,
-                              res_date,
-                              
-                              res_text,
+                              date,
+
+                              text,
                               user_name,
                             })}
                             <strong>{user_name}</strong>
-                            <p>
-                              {res_date.substring(0, 10)}
-                             
-                            </p>
+                            <p>{date.substring(0, 10)}</p>
                             <h5>
-                              <p1>{res_text}</p1>
+                              <p1>{text}</p1>
                             </h5>
                           </ListGroup.Item>
                         )
                       )}
-                        <Form.Group controlId="comment">
+                      <Form.Group controlId="comment">
                         <Form.Label>Comment</Form.Label>
                         <Form.Control
                           as="textarea"
@@ -434,28 +408,29 @@ const addComment = async () => {
                           Submit
                         </Button>
                       </Form.Group>
-                </Accordion.Body>
-                </Accordion.Item>
+                    </Accordion.Body>
+                  </Accordion.Item>
                 </Accordion>
-            </Modal.Body>
-            <Modal.Footer>
-            <Button
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
                   variant="primary"
                   type="submit"
-                  onClick={() => updateData()}
+                  // onClick={() => updateData()}
                 >
                   Update
                 </Button>
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-            </Modal.Footer>
+              </Modal.Footer>
             </Form>
           </>
-        
+        )}
       </Modal>
+
       <Modal show={showDelete} onHide={handleCloseDelete}>
-      <Modal.Header closeButton={true}>
+        <Modal.Header closeButton={true}>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure ?</Modal.Body>
@@ -472,7 +447,6 @@ const addComment = async () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </>
   );
 }

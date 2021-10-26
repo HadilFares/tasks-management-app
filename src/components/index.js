@@ -4,4 +4,4 @@ export {default as AdminHeader} from './Header/AdminHeader';
 
 export {default as Message} from './Message.jsx';
 export {default as FormContainer} from './FormContainer';
-export {default as Loader} from './Loader'
+export {default as Loader} from './Loader';

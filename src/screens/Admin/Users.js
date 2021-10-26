@@ -146,7 +146,7 @@ const Users = () => {
               <tr>
                 <th scope="col">#</th>
 
-                <th scope="col">User_ID</th>
+               
                 <th scope="col">Name</th>
                 <th scope="col">LastName</th>
                 <th scope="col">hiring date</th>
@@ -157,7 +157,7 @@ const Users = () => {
               {userList.map((user, id) => (
                 <tr key={id}>
                   <th scope="row"></th>
-                  <td>{user.matricule}</td>
+                 
                   <td>{user.name}</td>
                   <td>{user.lastname}</td>
                   <td>

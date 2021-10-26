@@ -9,7 +9,7 @@ import {
   ListTasks,
   GeneratePassword,
   DashboardClientScreen,
-  AdminHome,
+  AdminHome,NewTask
 } from "../screens";
 import { Route } from "react-router-dom";
 import Users from "../screens/Admin/Users";
@@ -25,7 +25,9 @@ function AdminRoutes() {
         <Route path="/register" component={RegisterScreen} exact />
         <Route path="list/tasks" component={ListTasks} exact />
         <Route path="/generatepassword/:id" component={GeneratePassword} exact />
-        <Route path="/dashboardClient" component={DashboardClientScreen} exact />
+        <Route path="/dashboard" component={DashboardClientScreen} exact />
+      <Route path="/client/newticket" component={NewTask} exact />
+
       </Container>   
     )
 }
