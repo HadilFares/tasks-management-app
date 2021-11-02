@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function ClientHeader() {
   return (
     <Form.Group className="mb-5">
-       <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Collapse id="responsive-navbar-nav">
             <Navbar.Brand>
@@ -14,11 +14,9 @@ function ClientHeader() {
                 MyDesk
               </Link>
             </Navbar.Brand>
-            <Nav className="me-auto">
-              
-            </Nav>
+            <Nav className="me-auto"></Nav>
             <Nav>
-            <NavDropdown
+              <NavDropdown
                 title={
                   <span>
                     <i class="fas fa-clipboard-list" /> TASKS
@@ -33,8 +31,14 @@ function ClientHeader() {
                   <NavDropdown.Item>New Tasks</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
-
-             
+              <Nav.Link
+                href="/client/profile"
+                style={{ textDecoration: "none", color: "White" }}
+              >
+                <span>
+                  <i class="fas fa-user" /> Profile
+                </span>
+              </Nav.Link>
               <Nav.Link
                 href="/login"
                 style={{ textDecoration: "none", color: "White" }}
@@ -43,7 +47,6 @@ function ClientHeader() {
                   <i class="fas fa-sign-out-alt" /> Logout
                 </span>
               </Nav.Link>
-              
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -27,7 +27,7 @@ function LoginScreen() {
         localStorage.setItem("name", response.data.name);
         
         if(response.data.isAdmin) history.push('/dashboardAdmin');
-        else history.push('/dashboardClient');
+        else history.push('/dashboard');
         window.location.reload();
       });
       setIsLoading(false);

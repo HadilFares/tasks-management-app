@@ -7,38 +7,46 @@ import moment from "moment";
 const EditUser = () => {
   let history = useHistory();
   const { id } = useParams();
-  const [admin,setAdmin] = useState(false);
-  const [user, setUser] = useState({
+  const [isAdmin, setIsAdmin] = useState();
+  const [name, setName] = useState();
+  const [lastname, setLastName] = useState();
+  const [dateDemarrage, setDateDemarrage] = useState();
+
+  /*const [user, setUser] = useState({
     name: "",
     lastname: "",
     dateDemarrage: "",
     isAdmin: admin,
   });
-  const { name, lastname, dateDemarrage, isAdmin } = user;
+ // const { name, lastname, dateDemarrage, admin } = user;
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-  };
+  }*/
 
   useEffect(() => {
     loadUser();
+   
   }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:3000/update/${id}`, user);
+    await axios.put(`http://localhost:3000/update/${id}`, {
+      name,
+      lastname,
+      dateDemarrage,
+      isAdmin,
+    });
     history.push("/users");
   };
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:3000/user/get/${id}`);
-    console.log(user.data);
-    setUser(result.data);
-    setAdmin(result.data.isAdmin)
+    await axios.get(`http://localhost:3000/user/get/${id}`).then((result) => {
+     // console.log(result.data);
+      setIsAdmin(result.data.isAdmin);
+      setLastName(result.data.lastname);
+      setName(result.data.name);
+      setDateDemarrage(result.data.dateDemarrage);
+    });
   };
-
-  const handleChange = e => {
-    setAdmin(!admin);
-    setUser({ ...user, [e.target.name]: e.target.value });
- };
 
   return (
     <div className="container">
@@ -51,8 +59,8 @@ const EditUser = () => {
               className="form-control form-control-lg"
               placeholder="Enter Your name"
               name="name"
-              value={name}
-              onChange={(e) => onInputChange(e)}
+              defaultValue={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -62,7 +70,7 @@ const EditUser = () => {
               placeholder="Enter Your lastname"
               name="lastname"
               value={lastname}
-              onChange={(e) => onInputChange(e)}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -71,13 +79,17 @@ const EditUser = () => {
               className="form-control form-control-lg"
               placeholder="Enter Your date"
               name="dateDemarrage"
-              //value={dateDemarrage}
               value={moment(dateDemarrage).format("yyyy-MM-DD")}
-              onChange={(e) => onInputChange(e)}
+              onChange={(e) => setDateDemarrage(e.target.value)}
             />
           </div>
           <div>
-            <input type="checkbox" id="isAdmin" checked={admin} onClick={handleChange} />
+            <input
+              type="checkbox"
+              id="isAdmin"
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
+            />
 
             <label for="isAdmin">Is Admin </label>
           </div>

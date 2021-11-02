@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
-import { NewTask, GeneratePassword, DashboardClientScreen } from "../screens";
+import { NewTask, GeneratePassword, DashboardClientScreen, Profil } from "../screens";
 import { Route } from "react-router-dom";
 
 function ClientRoutes() {
@@ -10,6 +10,7 @@ function ClientRoutes() {
       <Route path="/client/newticket" component={NewTask} exact />
       <Route path="/generatepassword/:id" component={GeneratePassword} exact />
       <Route path="/dashboard" component={DashboardClientScreen} exact />
+      <Route path="/client/profile" component={Profil} exact />
     </Container>
   );
 }
