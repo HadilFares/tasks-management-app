@@ -32,16 +32,7 @@ const Header = () => {
                     </span>
                   </Link>
                 </Nav.Link>
-                <Nav.Link>
-                  <Link
-                    to={"/register"}
-                    style={{ textDecoration: "none", color: "White" }}
-                  >
-                    <span>
-                      <i class="fas fa-user-plus" /> SignUp
-                    </span>
-                  </Link>
-                </Nav.Link>
+               
               </Nav>
             </Navbar.Collapse>
           </Container>

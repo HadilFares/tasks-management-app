@@ -48,6 +48,9 @@ function AdminHeader() {
                 <LinkContainer to="/dashboardAdmin">
                   <NavDropdown.Item>Statistics</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to="/users/add">
+                  <NavDropdown.Item>Add User </NavDropdown.Item>
+                </LinkContainer>
               </NavDropdown>
               <Nav.Link
                 href="/login"

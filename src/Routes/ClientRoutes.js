@@ -8,7 +8,7 @@ function ClientRoutes() {
     <Container>
      
       <Route path="/client/newticket" component={NewTask} exact />
-      <Route path="/generatepassword/:id" component={GeneratePassword} exact />
+     
       <Route path="/dashboard" component={DashboardClientScreen} exact />
       <Route path="/client/profile" component={Profil} exact />
     </Container>

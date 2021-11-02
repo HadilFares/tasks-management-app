@@ -200,7 +200,7 @@ const Users = () => {
           }}
           ref={(exporter) => (_export = exporter)}
         >
-          <ExcelExportColumn field="matricule" title="User_Id" />
+        
           <ExcelExportColumn field="name" title="Name" />
           <ExcelExportColumn field="lastname" title="LastName" />
           <ExcelExportColumn field="dateDemarrage" title="Hiring Date" />

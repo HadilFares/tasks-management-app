@@ -5,7 +5,7 @@ import {
   AddUser,
   EditUser,
   LoginScreen,
-  RegisterScreen,
+  
   ListTasks,
   GeneratePassword,
   DashboardClientScreen,
@@ -22,9 +22,9 @@ function AdminRoutes() {
         <Route path="/users/add" component={AddUser} />
         <Route exact path="/users/edit/:id" component={EditUser} />
         <Route path="/login" component={LoginScreen} exact />
-        <Route path="/register" component={RegisterScreen} exact />
+       
         <Route path="list/tasks" component={ListTasks} exact />
-        <Route path="/generatepassword/:id" component={GeneratePassword} exact />
+       
         <Route path="/dashboard" component={DashboardClientScreen} exact />
       <Route path="/client/newticket" component={NewTask} exact />
 

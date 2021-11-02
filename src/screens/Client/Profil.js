@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Alert } from "react-bootstrap";
-
+import { Message } from "../../components";
 function Profil() {
   let history = useHistory();
   const id = localStorage.getItem("id");
@@ -11,6 +11,7 @@ function Profil() {
   const [password, setPassword] = useState();
   const [verifPassword, setVerifPassword] = useState();
   const [error, setError] = useState(false);
+  const [successMessage ,setSuccessMessage] = useState(false)
 
   const onUpdateProfile = async (e) => {
     e.preventDefault();
@@ -18,16 +19,18 @@ function Profil() {
       name,
       lastname,
     });
-    history.push("/dashboard");
+    setSuccessMessage(true);
+    //  history.push("/dashboard");
   };
 
   const onUpdatePassword = async (e) => {
     e.preventDefault();
-    if (password != verifPassword) setError("Invalid password verfication");
+    if (password != verifPassword || password.length < 5)
+      setError(true);
     else {
       try {
         await axios.put(`http://localhost:3000/update/${id}`, { password });
-        history.push("/dashboard");
+        setSuccessMessage(true);
       } catch (error) {}
     }
   };
@@ -47,7 +50,8 @@ function Profil() {
     <div>
       <div className="container">
         <div className="w-75 mx-auto shadow p-5">
-          {error == false && <Alert variant={"danger"}>Invalid password</Alert>}
+          {error  && <Alert variant={"danger"}>Invalid password</Alert>}
+          {successMessage && <Alert variant={"success"}>profile updated successfully</Alert>}
           <h2 className="text-center mb-4">Edit My Profil</h2>
           <form onSubmit={(e) => onUpdateProfile(e)}>
             <div className="form-group">

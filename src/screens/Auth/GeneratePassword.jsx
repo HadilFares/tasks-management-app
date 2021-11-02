@@ -1,4 +1,4 @@
-import React ,{useState} from 'react'
+import React ,{useState,useEffect} from 'react'
 import { FormContainer } from "../../components";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 function GeneratePassword() {
     const [password, setPassword] = useState();
     const params = useParams();
-
+    const history = useHistory();
 
 const generate = async () =>{
     let id=params.id;
@@ -17,12 +17,18 @@ const generate = async () =>{
         .then((res) => {
             console.log(res);
            });
-
+           history.push('/login');
     }
     catch (error){
       console.log({error});
     }
 }
+
+
+useEffect(() => {
+  
+  localStorage.clear();
+}, [])
     return (
         <FormContainer>
             <Form>

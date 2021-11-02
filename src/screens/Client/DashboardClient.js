@@ -126,7 +126,7 @@ function DashboardClientScreen() {
   //* DELETE REQUEST
   const deleteRequest = async (id) => {
     try {
-      //* we need delete comments before delete req
+      
 
       const response = await axios.delete(
         `http://localhost:3000/delete/task/${id}`
