@@ -49,7 +49,7 @@ function DashboardClientScreen() {
     setTodo(todo);
     setInProgress(inProgress);
     setDone(done);
-    console.log(todo);
+    console.log('todo',todo);
     console.log(done);
     console.log(inProgress);
   };
@@ -109,12 +109,13 @@ function DashboardClientScreen() {
   };
 
   // * UPDATE REQUEST STATUS
-  const updateRequestStatus = async (newStatus, requestId) => {
+  const updateRequestStatus = async (oldStatus,newStatus, requestId) => {
     try {
       const res = await axios.put(
         `http://localhost:3000/update/task/${requestId}`,
         { Statut: newStatus }
       );
+ 
       console.log(res);
       setSuccessMessage(res.data.msg);
       window.location.reload()
@@ -277,7 +278,7 @@ function DashboardClientScreen() {
           background: "white",
         }}
         onCardMoveAcrossLanes={(fromLaneId, toLaneId, cardId, index) => {
-          updateRequestStatus(toLaneId, cardId);
+          updateRequestStatus(fromLaneId,toLaneId, cardId);
         }}
       />
 
