@@ -27,17 +27,6 @@ const AddUser = () => {
     console.log(result.data.reverse());
     setuserList(result.data.reverse());
 
-    /* var found = false;
-    for (var i = 0; i < result.data.length; i++) {
-      if (result.data[i].matricule == user.matricule) {
-        found = true;
-        break;
-      }
-    }
-
-   if (found == true) {
-      return alert("matricule already exit");
-    } else {*/
     try {
       await axios.post("http://localhost:3000/create", user).then((res) => {
         setLoading(false);

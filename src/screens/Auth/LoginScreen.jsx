@@ -70,9 +70,9 @@ const togglePasswordVisibility=()=>{
             name="password"
             placeholder="Enter Password"
             onChange={(e) => setPassword(e.target.value)}
-        
+            
           />
-           <FontAwesomeIcon icon={faEye}  onClick={togglePasswordVisibility}/>
+           
         </Form.Group>
 
         <div class="text-center">
@@ -84,7 +84,7 @@ const togglePasswordVisibility=()=>{
       <Row className="py-3">
         <Col>
           New Customer?{" "}
-          {/*<Link to={redirect ? `/register?redirect=${redirect} ` : '/register'>}>*/}
+          
           <Link to="/register">Register</Link>
         </Col>
       </Row>

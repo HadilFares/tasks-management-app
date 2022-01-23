@@ -23,14 +23,7 @@ const Header = () => {
                   </Link>
                 </Nav.Link>
                 <Nav.Link>
-                  <Link
-                    to={"/about"}
-                    style={{ textDecoration: "none", color: "White" }}
-                  >
-                    <span>
-                      <i class=" fab fa-adn" /> About
-                    </span>
-                  </Link>
+                  
                 </Nav.Link>
                 <Nav.Link>
                   <Link

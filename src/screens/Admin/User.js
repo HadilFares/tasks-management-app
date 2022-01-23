@@ -6,12 +6,7 @@ import axios from "axios";
 function User({ users, loading }) {
   console.log(users);
   console.log(loading);
-  //const [userList, setuserList] = useState(Users);
 
-  /*const loadUsers = async () => {
-    const result = await axios.get("http://localhost:3000/read");
-    setuserList(result.data.reverse());
-  };*/
   const deleteUser = async (id) => {
     await axios.delete(`http://localhost:3000/delete/${id}`);
     //loadUsers();

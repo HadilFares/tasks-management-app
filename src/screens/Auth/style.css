@@ -13,4 +13,7 @@
   font-family: "Open Sans", sans-serif;
   text-align: center;
 }
-
+.sample {
+  font: 2rem 'AmstelvarAlpha', sans-serif;
+  font-style: oblique 23deg;
+}

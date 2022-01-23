@@ -22,7 +22,7 @@ function App() {
   return (
     <Router>
       {isLoggedIn ? (
-        isAdmin == true ? (
+        isAdmin  ? (
           <AdminHeader />
         ) : (
           <ClientHeader />
@@ -32,7 +32,7 @@ function App() {
       )}
 
       {isLoggedIn ? (
-        isAdmin == true ? (
+        isAdmin  ? (
           <Switch>
             <AdminRoutes />
           </Switch>

@@ -12,16 +12,7 @@ const EditUser = () => {
   const [lastname, setLastName] = useState();
   const [dateDemarrage, setDateDemarrage] = useState();
 
-  /*const [user, setUser] = useState({
-    name: "",
-    lastname: "",
-    dateDemarrage: "",
-    isAdmin: admin,
-  });
- // const { name, lastname, dateDemarrage, admin } = user;
-  const onInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  }*/
+  
 
   useEffect(() => {
     loadUser();

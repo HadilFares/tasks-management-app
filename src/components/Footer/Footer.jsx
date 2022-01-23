@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import './Footer.css';
 const Footer = () => {
   return (
-    <div className="footer" style={{marginTop:"25%"}}>
+    <div className="footer" >
   
 
       <h1 className="credit">
