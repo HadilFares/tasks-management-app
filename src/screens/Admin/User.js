@@ -1,42 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import moment from "moment";
 import { Link } from "react-router-dom";
-//import axios from "axios";
+import axios from "axios";
 
-const User = () => {
-  const [user, setUser] = useState({
-    //id:"",
-    matricule: "",
-    name: "",
-    lastname: "",
-    dateDemarrage: ""
-    
-  });
-  /*
-  useEffect(() => {
-    loadUser();
-  }, []);
-  const loadUser = async () => {
-    const res = await axios.get(`http://localhost:3000/user/get/${id}`);
-    setUser(res.data);
+function User({ users, loading }) {
+  console.log(users);
+  console.log(loading);
+  //const [userList, setuserList] = useState(Users);
+
+  /*const loadUsers = async () => {
+    const result = await axios.get("http://localhost:3000/read");
+    setuserList(result.data.reverse());
   };*/
+  const deleteUser = async (id) => {
+    await axios.delete(`http://localhost:3000/delete/${id}`);
+    //loadUsers();
+  };
   return (
-    <div className="container py-4">
-      <Link className="btn btn-primary" to="/">
-        back to Home
-      </Link>
+    <table id="tblData" className="table border shadow">
+      <thead className="thead-dark">
+        <tr>
+          <th scope="col">#</th>
 
-      <hr />
-      <ul className="list-group w-50">
-        
-        
-        <li className="list-group-item">matricule: {user.matricule}</li>
-        <li className="list-group-item">name: {user.name}</li>
-        <li className="list-group-item">lastname: {user.lastname}</li>
-        <li className="list-group-item">DateDemarrage: {user.dateDemarrage}</li>
-        
-      </ul>
-    </div>
+          <th scope="col">Name</th>
+          <th scope="col">LastName</th>
+          <th scope="col">hiring date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loading ? (
+          <h1>loading...</h1>
+        ) : (
+          users.map((user, id) => (
+            <tr key={id}>
+              <th scope="row"></th>
+
+              <td>{user.name}</td>
+              <td>{user.lastname}</td>
+              <td>
+                {
+                  (user.dateDemarrage = moment(user?.dateDemarrage).format(
+                    "YYYY / MM / DD"
+                  ))
+                }
+              </td>
+              <td>
+                <Link
+                  className="btn btn-outline-primary mr-2"
+                  to={`/users/edit/${user._id}`}
+                >
+                  Edit
+                </Link>
+                <Link
+                  className="btn btn-danger"
+                  onClick={() => deleteUser(user._id)}
+                >
+                  Delete
+                </Link>
+              </td>
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
   );
-};
+}
 
 export default User;

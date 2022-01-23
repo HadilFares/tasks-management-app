@@ -11,6 +11,7 @@ import {
   DashboardClientScreen,
   AdminHome,NewTask
 } from "../screens";
+import { About } from "../components";
 import { Route } from "react-router-dom";
 import Users from "../screens/Admin/Users";
 
@@ -22,7 +23,7 @@ function AdminRoutes() {
         <Route path="/users/add" component={AddUser} />
         <Route exact path="/users/edit/:id" component={EditUser} />
         <Route path="/login" component={LoginScreen} exact />
-       
+        <Route path="/about" component={About} exact />
         <Route path="list/tasks" component={ListTasks} exact />
        
         <Route path="/dashboard" component={DashboardClientScreen} exact />

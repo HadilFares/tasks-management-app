@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { Header, ClientHeader, AdminHeader } from "./components";
-import { AdminRoutes, ClientRoutes ,AuthRoutes} from "./Routes/index";
+import Footer from "./components/Footer/Footer";
+import { AdminRoutes, ClientRoutes, AuthRoutes } from "./Routes/index";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState();
@@ -29,16 +30,21 @@ function App() {
       ) : (
         <Header />
       )}
-      {isLoggedIn ? 
+
+      {isLoggedIn ? (
         isAdmin == true ? (
-        <Switch>
-          <AdminRoutes />
-        </Switch>
+          <Switch>
+            <AdminRoutes />
+          </Switch>
+        ) : (
+          <Switch>
+            <ClientRoutes />
+          </Switch>
+        )
       ) : (
-        <Switch>
-          <ClientRoutes />
-        </Switch>
-      ): <AuthRoutes/>}
+        <AuthRoutes />
+      )}
+      <Footer />
     </Router>
   );
 }
